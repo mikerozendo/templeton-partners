@@ -1,18 +1,19 @@
 using NRedisStack;
 using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
+using Templeton.Partners.Api.Entities;
 
 namespace Templeton.Partners.Api.Shared;
 
-public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
-    where TRecord : class
+public sealed class CacheServer<TEntry> : ICacheServer<TEntry>
+    where TEntry : EntryBase
 {
     private readonly ConnectionMultiplexer _connection;
     private readonly IDatabase _database;
     private readonly JsonCommands _jsonCommands;
-    private readonly ILogger<CacheServer<TRecord>> _logger;
+    private readonly ILogger<CacheServer<TEntry>> _logger;
 
-    public CacheServer(ILogger<CacheServer<TRecord>> logger)
+    public CacheServer(ILogger<CacheServer<TEntry>> logger)
     {
         //TODO: ADD env var
         _connection = ConnectionMultiplexer.Connect(
@@ -24,9 +25,9 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
         _logger = logger;
     }
 
-    public async Task<TRecord?> GetByKeyAsync(string key)
+    public async Task<TEntry?> GetByKeyAsync(string key)
     {
-        var result = await _jsonCommands.GetAsync<TRecord>(key, "$");
+        var result = await _jsonCommands.GetAsync<TEntry>(key, "$");
 
         if (result is null)
             _logger.LogInformation("Missing hit for key {searchedKey}", key);
@@ -36,9 +37,9 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
         return result;
     }
 
-    public async Task SaveAsync(string key, TRecord entry)
+    public async Task SaveAsync(TEntry entry)
     {
-        var existingEntry = await GetByKeyAsync(key);
+        var existingEntry = await GetByKeyAsync(entry.Key);
 
         if (existingEntry is null)
         {
@@ -47,18 +48,21 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
 
             try
             {
-                _logger.LogInformation("Creating key {searchedKey}", key);
+                _logger.LogInformation("Creating key {searchedKey}", entry.Key);
 
-                await _jsonCommands.SetAsync(key, "$", entry);
+                await _jsonCommands.SetAsync(entry.Key, "$", entry.Data);
 
-                _logger.LogInformation("key {searchedKey} has been successfully created", key);
+                _logger.LogInformation(
+                    "key {searchedKey} has been successfully created",
+                    entry.Key
+                );
             }
             catch (Exception ex)
             {
                 _logger.LogError(
                     ex,
                     "An error has occurred while trying to search against key {searchedKey}",
-                    key
+                    entry.Key
                 );
             }
             finally
