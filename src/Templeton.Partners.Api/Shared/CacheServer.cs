@@ -22,7 +22,6 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
         _database = _connection.GetDatabase();
         _jsonCommands = _database.JSON();
         _logger = logger;
-        _logger.BeginScope("{CacheServer} ", nameof(CacheServer<TRecord>));
     }
 
     public async Task<TRecord?> GetByKeyAsync(string key)
