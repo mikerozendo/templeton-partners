@@ -5,7 +5,7 @@ using StackExchange.Redis;
 namespace Templeton.Partners.Api.Shared;
 
 public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
-    where TRecord : CacheableEntry<TRecord>
+    where TRecord : class
 {
     private readonly ConnectionMultiplexer _connection;
     private readonly IDatabase _database;
@@ -13,7 +13,11 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
 
     public CacheServer()
     {
-        _connection = ConnectionMultiplexer.Connect("localhost:6379");
+        //TODO: ADD env var
+        _connection = ConnectionMultiplexer.Connect(
+            "localhost:6379",
+            x => x.Password = "mypassword"
+        );
         _database = _connection.GetDatabase();
         _jsonCommands = _database.JSON();
     }
@@ -23,9 +27,9 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
         return await _jsonCommands.GetAsync<TRecord>(key, "$");
     }
 
-    public async Task SaveAsync(TRecord entry)
+    public async Task SaveAsync(string key, TRecord entry)
     {
-        var existingEntry = await GetByKeyAsync(entry.Key);
+        var existingEntry = await GetByKeyAsync(key);
 
         if (existingEntry is null)
         {
@@ -34,7 +38,7 @@ public sealed class CacheServer<TRecord> : ICacheServer<TRecord>
 
             try
             {
-                await _jsonCommands.SetAsync(entry.Key, "$", entry.Data);
+                await _jsonCommands.SetAsync(key, "$", entry);
             }
             finally
             {

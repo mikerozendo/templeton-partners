@@ -1,8 +1,8 @@
 namespace Templeton.Partners.Api.Shared;
 
 public interface ICacheServer<TRecord>
-    where TRecord : CacheableEntry<TRecord>
+    where TRecord : class
 {
-    Task SaveAsync(TRecord entry);
     Task<TRecord?> GetByKeyAsync(string key);
+    Task SaveAsync(string key, TRecord entry);
 }
