@@ -1,4 +1,10 @@
 namespace Templeton.Partners.Api.Entities;
 
-public sealed class BestStoryPageEntry(BestStoryPage storyPage)
-    : EntryBase($"{nameof(BestStoryPageEntry)}-{storyPage.Page}", storyPage) { }
+public sealed class BestStoryPageEntry : EntryBase
+{
+    public BestStoryPageEntry(BestStoryPage storyPage)
+        : base(storyPage, nameof(BestStoryPageEntry), storyPage.Page.ToString()) { }
+
+    public BestStoryPageEntry(int page)
+        : base(nameof(BestStoryPageEntry), page.ToString()) { }
+}
