@@ -14,7 +14,7 @@ public static class FetchBestStoriesFeatureInjector
         serviceCollection
             .AddRefitClient<IFetchBestStoriesClient>()
             .ConfigureHttpClient(c =>
-                c.BaseAddress = new Uri("https://hacker-news.firebaseio.com")
+                c.BaseAddress = new Uri("https://hacker-news.firebaseio.com") //TODO: Add envvar
             );
     }
 }
