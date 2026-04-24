@@ -1,8 +1,10 @@
+using Templeton.Partners.Api.Entities;
+
 namespace Templeton.Partners.Api.Shared;
 
-public interface ICacheServer<TRecord>
-    where TRecord : class
+public interface ICacheServer<TEntry>
+    where TEntry : EntryBase
 {
-    Task<TRecord?> GetByKeyAsync(string key);
-    Task SaveAsync(string key, TRecord entry);
+    Task<TEntry?> GetByKeyAsync(string key);
+    Task SaveAsync(TEntry entry);
 }

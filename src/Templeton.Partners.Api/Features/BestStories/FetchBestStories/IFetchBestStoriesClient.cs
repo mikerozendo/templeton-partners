@@ -1,6 +1,6 @@
 using Refit;
 
-namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
+namespace Templeton.Partners.Api.Features.BestStories.FetchBestStories;
 
 public interface IFetchBestStoriesClient
 {
