@@ -1,4 +1,5 @@
 using Refit;
+using Templeton.Partners.Api.Entities;
 using Templeton.Partners.Api.Shared;
 
 namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
@@ -8,7 +9,7 @@ public static class FetchBestStoriesFeatureInjector
     public static void AddFeatureFetchBestStories(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IFetchBestStoriesService, FetchBestStoriesService>();
-        serviceCollection.AddScoped<ICacheServer<List<long>>, CacheServer<List<long>>>();
+        serviceCollection.AddScoped<ICacheServer<StoryPageEntry>, CacheServer<StoryPageEntry>>();
         serviceCollection.AddHostedService<FetchBestStoriesServiceBackgroundService>();
 
         serviceCollection

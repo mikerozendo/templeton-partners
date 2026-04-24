@@ -1,10 +1,11 @@
+using Templeton.Partners.Api.Entities;
 using Templeton.Partners.Api.Shared;
 
 namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
 
 public sealed class FetchBestStoriesService(
     IFetchBestStoriesClient repository,
-    ICacheServer<List<long>> cacheServer,
+    ICacheServer<StoryPageEntry> cacheServer,
     ILogger<FetchBestStoriesService> logger
 ) : IFetchBestStoriesService
 {
@@ -29,16 +30,18 @@ public sealed class FetchBestStoriesService(
         var pagesAmount = (int)
             Math.Ceiling((double)webApiResponse.Content.Count / maxEntriesPerPage);
 
-        List<StoryPage> pagesToInsert = [];
+        List<StoryPageEntry> pagesToInsert = [];
         for (int currentPage = 1; currentPage <= pagesAmount; currentPage++)
         {
             var stories = webApiResponse
                 .Content.Skip(currentPage == 1 ? 0 : currentPage * maxEntriesPerPage)
                 .Take(maxEntriesPerPage);
 
-            pagesToInsert.Add(new StoryPage(currentPage, stories));
+            pagesToInsert.Add(new StoryPageEntry(new StoryPage(currentPage, stories)));
         }
 
-        await cacheServer.SaveAsync("beststories", webApiResponse.Content);
+        var insertTasks = pagesToInsert.Select(cacheServer.SaveAsync);
+
+        await Task.WhenAll(insertTasks);
     }
 }
