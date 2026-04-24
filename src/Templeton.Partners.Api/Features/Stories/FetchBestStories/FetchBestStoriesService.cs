@@ -4,6 +4,7 @@ namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
 
 public sealed class FetchBestStoriesService(
     IFetchBestStoriesClient repository,
+    ICacheServer<List<long>> cacheServer,
     ILogger<FetchBestStoriesService> logger
 ) : IFetchBestStoriesService
 {
@@ -24,11 +25,6 @@ public sealed class FetchBestStoriesService(
             return;
         }
 
-        var cacheableEntry = new CacheableEntry<IEnumerable<long>>(
-            "beststories",
-            webApiResponse.Content
-        );
-
-        throw new NotImplementedException();
+        await cacheServer.SaveAsync("beststories", webApiResponse.Content);
     }
 }
