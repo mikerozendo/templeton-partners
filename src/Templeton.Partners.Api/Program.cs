@@ -1,4 +1,5 @@
-using Templeton.Partners.Api.Features.Stories.FetchBestStories;
+using Templeton.Partners.Api.Features.BestStories.BestStoriesProvider;
+using Templeton.Partners.Api.Features.BestStories.FetchBestStories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 builder.Services.AddFeatureFetchBestStories();
+builder.Services.AddFeatureBestStoriesProvider();
 
 var app = builder.Build();
 
