@@ -1,3 +1,5 @@
+using Templeton.Partners.Api.Shared;
+
 namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
 
 public sealed class FetchBestStoriesService(
@@ -21,6 +23,11 @@ public sealed class FetchBestStoriesService(
 
             return;
         }
+
+        var cacheableEntry = new CacheableEntry<IEnumerable<long>>(
+            "beststories",
+            webApiResponse.Content
+        );
 
         throw new NotImplementedException();
     }

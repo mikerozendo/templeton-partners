@@ -1,6 +1,6 @@
 namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
 
-public class FetchBestStoriesServiceBackgroundService(IServiceProvider serviceProvider)
+public sealed class FetchBestStoriesServiceBackgroundService(IServiceProvider serviceProvider)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
