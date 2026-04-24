@@ -1,4 +1,4 @@
-namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
+namespace Templeton.Partners.Api.Features.BestStories.FetchBestStories;
 
 public sealed class FetchBestStoriesServiceBackgroundService(IServiceProvider serviceProvider)
     : BackgroundService

@@ -2,7 +2,7 @@ using Refit;
 using Templeton.Partners.Api.Entities;
 using Templeton.Partners.Api.Shared;
 
-namespace Templeton.Partners.Api.Features.Stories.FetchBestStories;
+namespace Templeton.Partners.Api.Features.BestStories.FetchBestStories;
 
 public static class FetchBestStoriesFeatureInjector
 {
