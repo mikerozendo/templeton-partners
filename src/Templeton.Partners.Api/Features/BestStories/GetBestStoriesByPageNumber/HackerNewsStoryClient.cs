@@ -1,6 +1,6 @@
 using Refit;
 
-namespace Templeton.Partners.Api.Features.Stories.GetStoriesByPageNumber;
+namespace Templeton.Partners.Api.Features.BestStories.GetBestStoriesByPageNumber;
 
 public interface IGetNewsByPageNumberClient
 {

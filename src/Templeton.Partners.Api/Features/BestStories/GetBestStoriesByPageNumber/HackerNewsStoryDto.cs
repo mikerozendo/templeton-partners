@@ -1,4 +1,4 @@
-namespace Templeton.Partners.Api.Features.Stories.GetStoriesByPageNumber;
+namespace Templeton.Partners.Api.Features.BestStories.GetBestStoriesByPageNumber;
 
 public sealed class HackerNewsStoryDto
 {
