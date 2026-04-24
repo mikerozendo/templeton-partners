@@ -15,7 +15,7 @@ public sealed class FetchBestStoriesService(
 
         var webApiResponse = await repository.GetAsync();
 
-        if (!webApiResponse.IsSuccessStatusCode)
+        if (!webApiResponse.IsSuccessStatusCode && webApiResponse.Error is null)
         {
             logger.LogError(
                 "Error while trying to fetch new best stories: {@Error}",
@@ -23,6 +23,20 @@ public sealed class FetchBestStoriesService(
             );
 
             return;
+        }
+
+        var maxEntriesPerPage = 40; // TODO: add as envvar
+        var pagesAmount = (int)
+            Math.Ceiling((double)webApiResponse.Content.Count / maxEntriesPerPage);
+
+        List<StoryPage> pagesToInsert = [];
+        for (int currentPage = 1; currentPage <= pagesAmount; currentPage++)
+        {
+            var stories = webApiResponse
+                .Content.Skip(currentPage == 1 ? 0 : currentPage * maxEntriesPerPage)
+                .Take(maxEntriesPerPage);
+
+            pagesToInsert.Add(new StoryPage(currentPage, stories));
         }
 
         await cacheServer.SaveAsync("beststories", webApiResponse.Content);
