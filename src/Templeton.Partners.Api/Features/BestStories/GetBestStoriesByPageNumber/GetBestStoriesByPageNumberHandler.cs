@@ -16,27 +16,26 @@ public sealed class GetBestStoriesByPageNumberHandler(
     {
         try
         {
-            var storiesForSearchedPage = await bestStoriesProvider.GetByPageAsync(fromPage);
-            if (storiesForSearchedPage is null)
+            var fromCurrentPage = await bestStoriesProvider.GetByPageAsync(fromPage);
+            if (fromCurrentPage is null)
                 return Results.NotFound();
 
             var searchScam = new ConcurrentDictionary<long, HackerNewsStory?>();
-            var queryAgainstCacheTasks = storiesForSearchedPage
+            var fetchFromCacheTasks = fromCurrentPage
                 .Stories.Select(x =>
                 {
                     var task = cacheProvider.GetByKeyAsync(new HackerNewsStoryEntry(x).Key);
                     task.ContinueWith(y =>
                     {
-                        Console.WriteLine($"Key add arraay {x}");
-                        searchScam.TryAdd(x, y.Result);
+                        searchScam.TryAdd(x, y.Result); //TODO: se falhar?
                     });
                     return task;
                 })
                 .ToList();
 
-            await Task.WhenAll(queryAgainstCacheTasks);
+            await Task.WhenAll(fetchFromCacheTasks);
 
-            var queryAgainstHttpClientTasks = searchScam
+            var fetchMissingFromHttpClient = searchScam
                 .Select(x =>
                 {
                     if (x.Value is not null)
@@ -57,7 +56,7 @@ public sealed class GetBestStoriesByPageNumberHandler(
                 })
                 .ToList();
 
-            await Task.WhenAll(queryAgainstHttpClientTasks);
+            await Task.WhenAll(fetchMissingFromHttpClient);
 
             //TODO:map response
             throw new NotImplementedException();
