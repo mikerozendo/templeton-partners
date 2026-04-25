@@ -27,7 +27,7 @@ public sealed class GetBestStoriesByPageNumberHandler(
                     var task = cacheProvider.GetByKeyAsync(new HackerNewsStoryEntry(x).Key);
                     task.ContinueWith(y =>
                     {
-                        searchScam.TryAdd(x, y.Result); //TODO: se falhar?
+                        searchScam.TryAdd(x, y.Result);
                     });
                     return task;
                 })
@@ -41,7 +41,7 @@ public sealed class GetBestStoriesByPageNumberHandler(
                     if (x.Value is not null)
                         return Task.CompletedTask;
 
-                    var task = hackerNewsStoryClient.GetAsync(x.Key);
+                    var task = hackerNewsStoryClient.GetByAsync(x.Key);
                     task.ContinueWith(async y =>
                     {
                         if (task.Result.IsSuccessStatusCode && task.Result.Error is null)
@@ -61,7 +61,7 @@ public sealed class GetBestStoriesByPageNumberHandler(
             //TODO:map response
             throw new NotImplementedException();
         }
-        catch (Exception ex) //TODO: enfiar isso dentro de um middleware de exception dps
+        catch (Exception ex) //TODO:add global exception handler
         {
             logger.LogError(
                 ex,
