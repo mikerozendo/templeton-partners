@@ -66,8 +66,9 @@ public sealed class GetBestStoriesByPageNumberHandler(
 
             await Task.WhenAll(fetchMissingFromHttpClient);
 
-            //TODO:map response
-            throw new NotImplementedException();
+            return Results.Ok(
+                new GetBestStoriesByPageNumberResponse(fromPage, searchScam.Select(x => x.Value))
+            );
         }
         catch (Exception ex) //TODO:add global exception handler
         {
