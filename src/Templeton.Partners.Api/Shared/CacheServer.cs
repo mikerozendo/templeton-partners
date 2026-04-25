@@ -5,36 +5,36 @@ using Templeton.Partners.Api.Entities;
 
 namespace Templeton.Partners.Api.Shared;
 
-public sealed class CacheServer<TEntry> : ICacheServer<TEntry>
-    where TEntry : EntryBase
+public class CacheServer<TEntry, TData> : ICacheServer<TEntry, TData>
+    where TEntry : EntryBase<TData>
 {
     private readonly ConnectionMultiplexer _connection;
     private readonly IDatabase _database;
     private readonly JsonCommands _jsonCommands;
-    private readonly ILogger<CacheServer<TEntry>> _logger;
+    private readonly ILogger<CacheServer<TEntry, TData>> _logger;
 
-    public CacheServer(ILogger<CacheServer<TEntry>> logger)
+    public CacheServer(ILogger<CacheServer<TEntry, TData>> logger)
     {
         //TODO: ADD env var
         _connection = ConnectionMultiplexer.Connect(
-            "localhost:6379",
-            x => x.Password = "mypassword"
+            "localhost:6379"
+        // x => x.Password = "mypassword"
         );
         _database = _connection.GetDatabase();
         _jsonCommands = _database.JSON();
         _logger = logger;
     }
 
-    public async Task<TEntry?> GetByKeyAsync(string key)
+    public async Task<TData?> GetByKeyAsync(string key)
     {
-        var result = await _jsonCommands.GetAsync<TEntry>(key, "$");
+        var entry = await _jsonCommands.GetAsync<TData>(key, "$");
 
-        if (result is null)
+        if (entry is null)
             _logger.LogInformation("Missing hit for key {searchedKey}", key);
         else
             _logger.LogInformation("Hitting key {searchedKey}", key);
 
-        return result;
+        return entry;
     }
 
     public async Task SaveAsync(TEntry entry)

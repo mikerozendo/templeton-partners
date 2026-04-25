@@ -1,22 +1,17 @@
 namespace Templeton.Partners.Api.Entities;
 
-public abstract class EntryBase
+public abstract class EntryBase<TData> : IEntry<TData>
 {
-    public dynamic Data { get; private set; }
+    public TData? Data { get; private set; }
     public string Key { get; private set; }
 
-    public EntryBase(dynamic data, params string[] keyPameters)
+    protected EntryBase(TData data, params string[] keyParameters)
     {
-        SetKey(keyPameters);
+        Key = string.Join("-", keyParameters);
         Data = data;
     }
 
-    public EntryBase(params string[] keyParameters)
-    {
-        SetKey(keyParameters);
-    }
-
-    private void SetKey(params string[] keyParameters)
+    protected EntryBase(params string[] keyParameters)
     {
         Key = string.Join("-", keyParameters);
     }
