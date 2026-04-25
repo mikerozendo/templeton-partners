@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddFeatureFetchBestStories();
 builder.Services.AddFeatureBestStoriesProvider();
-builder.Services.AddGetBestStoriesByPageNumber();
+builder.Services.AddFeatureGetBestStoriesByPageNumber();
 
 var app = builder.Build();
 

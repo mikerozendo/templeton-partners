@@ -6,7 +6,9 @@ namespace Templeton.Partners.Api.Features.BestStories.GetBestStoriesByPageNumber
 
 public static class GetBestStoriesByPageNumberInjector
 {
-    public static void AddGetBestStoriesByPageNumber(this IServiceCollection serviceCollection)
+    public static void AddFeatureGetBestStoriesByPageNumber(
+        this IServiceCollection serviceCollection
+    )
     {
         serviceCollection.AddScoped<
             IGetBestStoriesByPageNumberHandler,
