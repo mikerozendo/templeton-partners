@@ -17,5 +17,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapGetBestStoriesByPageNumber();
+app.MapFeatureGetBestStoriesByPageNumberEndpoint();
 app.Run();

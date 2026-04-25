@@ -2,7 +2,9 @@ namespace Templeton.Partners.Api.Features.BestStories.GetBestStoriesByPageNumber
 
 public static class GetBestStoriesByPageNumberEndpoint
 {
-    public static void MapGetBestStoriesByPageNumber(this WebApplication? webApplication)
+    public static void MapFeatureGetBestStoriesByPageNumberEndpoint(
+        this WebApplication? webApplication
+    )
     {
         webApplication.MapGet(
             "/",
