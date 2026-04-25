@@ -27,7 +27,7 @@ public sealed class FetchBestStoriesService(
             return;
         }
 
-        var maxEntriesPerPage = 50; // TODO: add as envvar
+        var maxEntriesPerPage = 20; // TODO: add as envvar
         var pagesAmount = (int)
             Math.Ceiling((double)webApiResponse.Content.Count / maxEntriesPerPage);
 
