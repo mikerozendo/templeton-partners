@@ -9,10 +9,12 @@ public static class FetchBestStoriesFeatureInjector
     public static void AddFeatureFetchBestStories(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IFetchBestStoriesService, FetchBestStoriesService>();
+
         serviceCollection.AddScoped<
-            ICacheServer<BestStoryPageEntry>,
-            CacheServer<BestStoryPageEntry>
+            ICacheServer<BestStoryPageEntry, BestStoryPage>,
+            CacheServer<BestStoryPageEntry, BestStoryPage>
         >();
+
         serviceCollection.AddHostedService<FetchBestStoriesServiceBackgroundService>();
 
         serviceCollection
