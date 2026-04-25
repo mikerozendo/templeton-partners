@@ -39,7 +39,15 @@ public sealed class GetBestStoriesByPageNumberHandler(
                 .Select(x =>
                 {
                     if (x.Value is not null)
+                    {
+                        logger.LogInformation(
+                            "{Handler} skipping already fetched story from cache with Id {ItemId}",
+                            nameof(GetBestStoriesByPageNumberHandler),
+                            x.Key
+                        );
+
                         return Task.CompletedTask;
+                    }
 
                     var task = hackerNewsStoryClient.GetByAsync(x.Key);
                     task.ContinueWith(async y =>
