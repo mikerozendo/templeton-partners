@@ -1,6 +1,6 @@
 namespace Templeton.Partners.Api.Entities;
 
-public sealed class HackerNewsStoryEntry : EntryBase
+public sealed class HackerNewsStoryEntry : EntryBase<HackerNewsStory>
 {
     public HackerNewsStoryEntry(HackerNewsStory hackerNewsStory, long storyId)
         : base(hackerNewsStory, nameof(HackerNewsStoryEntry), storyId.ToString()) { }
