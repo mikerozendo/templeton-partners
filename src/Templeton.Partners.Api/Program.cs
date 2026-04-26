@@ -4,7 +4,6 @@ using Templeton.Partners.Api.Features.BestStories.GetBestStoriesByPageNumber;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
 builder.Services.AddFeatureFetchBestStories();
 builder.Services.AddFeatureBestStoriesProvider();
 builder.Services.AddFeatureGetBestStoriesByPageNumber();
