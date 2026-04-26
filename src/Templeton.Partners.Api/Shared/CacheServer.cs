@@ -17,7 +17,7 @@ public class CacheServer<TEntry, TData> : ICacheServer<TEntry, TData>
     {
         //TODO: ADD env var
         _connection = ConnectionMultiplexer.Connect(
-            "localhost:6379"
+            "redis:6379,abortConnect=false"
         // x => x.Password = "mypassword"
         );
         _database = _connection.GetDatabase();
