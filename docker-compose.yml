@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis/redis-stack-server
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - data:/data
+    networks:
+      - templeton-partners-network
+    restart: unless-stopped
+    
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      redis:
+        condition: service_started
+    networks:
+      - templeton-partners-network
+    restart: unless-stopped
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  templeton-partners-network:
+    driver: bridge
+  

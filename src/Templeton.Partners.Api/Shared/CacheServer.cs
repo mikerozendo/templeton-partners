@@ -16,10 +16,7 @@ public class CacheServer<TEntry, TData> : ICacheServer<TEntry, TData>
     public CacheServer(ILogger<CacheServer<TEntry, TData>> logger)
     {
         //TODO: ADD env var
-        _connection = ConnectionMultiplexer.Connect(
-            "localhost:6379"
-        // x => x.Password = "mypassword"
-        );
+        _connection = ConnectionMultiplexer.Connect("redis:6379,abortConnect=false");
         _database = _connection.GetDatabase();
         _jsonCommands = _database.JSON();
         _logger = logger;
