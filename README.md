@@ -75,6 +75,15 @@ From the root directory:
 docker compose up --build
 ```
 
+## Technologies Used
+
+This application is built using modern technologies to ensure performance, scalability, and maintainability:
+
+- **.NET 10**: The core framework for building the API. .NET 10 provides the latest features, performance improvements, and cross-platform support for developing robust web applications.
+- **Redis**: Used as the caching layer to store and retrieve Hacker News stories efficiently. Redis offers high-speed data access, making it ideal for caching frequently requested data and reducing load on external APIs.
+
+Other technologies include Docker for containerization and Docker Compose for orchestrating multi-container applications.
+
 ## Architecture
 
 This application follows the **Vertical Slice Architecture** pattern, where features are organized vertically rather than horizontally. Each feature encapsulates all the necessary components (handlers, services, entities, etc.) within its own slice, promoting better separation of concerns and maintainability.
