@@ -74,3 +74,31 @@ From the root directory:
 ```bash
 docker compose up --build
 ```
+
+## Architecture
+
+This application follows the **Vertical Slice Architecture** pattern, where features are organized vertically rather than horizontally. Each feature encapsulates all the necessary components (handlers, services, entities, etc.) within its own slice, promoting better separation of concerns and maintainability.
+
+### Key Features and Services
+
+- **BestStories Feature**:
+  - `BestStoriesProvider`: Responsible for providing best stories data.
+  - `FetchBestStories`: Handles fetching best stories from external sources (Hacker News API).
+  - `GetBestStoriesByPageNumber`: Endpoint for retrieving paginated best stories.
+
+- **Shared Services**:
+  - `CacheServer`: Implements caching mechanism to store and retrieve data efficiently.
+
+- **Entities**:
+  - `BestStoryPage`, `BestStoryPageEntry`, `HackerNewsStory`, etc.: Data models representing the domain objects.
+
+## Technical Debts and Points for Improvement
+
+While the application is functional, there are several areas identified as technical debts that could be addressed for better performance, maintainability, and scalability:
+
+- **Testing**: Lack of comprehensive unit and integration tests. Adding tests for services, handlers, and endpoints would improve code reliability.
+- **Error Handling**: Limited error handling and logging. Implementing global exception handling and structured logging would enhance debugging and monitoring.
+- **Configuration Management**: Some hardcoded values (e.g., API endpoints) should be moved to configuration files for easier environment management.
+- **Authentication and Security**: No authentication mechanism is implemented.
+- **Performance Monitoring**: No metrics or monitoring tools integrated. Adding Application Insights or similar would help track performance.
+- **Documentation**: API documentation could be improved with tools like Swagger/OpenAPI for better developer experience.
