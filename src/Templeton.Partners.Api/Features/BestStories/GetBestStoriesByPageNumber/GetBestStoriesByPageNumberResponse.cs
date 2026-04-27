@@ -9,5 +9,4 @@ public sealed class GetBestStoriesByPageNumberResponse(
 {
     public IEnumerable<HackerNewsStory> Data { get; private set; } = data;
     public int CurrentPage { get; private set; } = currentPage;
-    public int TotalPages { get; private set; } // TODO: needs to be fullfiled
 }
