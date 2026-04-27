@@ -56,25 +56,6 @@ Response shape:
 Notes:
 - If `page` is omitted, the API returns the first page of results.
 
-### Notes
-- The project targets `net10.0`.
-- Dependencies are restored automatically by `dotnet build`.
-
-
-## Build Instructions
-
-### Prerequisites
-- .NET SDK 10.0 installed
-- Optional: Docker and Docker Compose if you want containerized builds
-
-### Run with Docker Compose:
-
-From the root directory:
-
-```bash
-docker compose up --build
-```
-
 ## Technologies Used
 
 This application is built using modern technologies to ensure performance, scalability, and maintainability:
