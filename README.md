@@ -4,7 +4,7 @@
 
 ### Prerequisites
 - .NET SDK 10.0 installed
-- Optional: Docker and Docker Compose for containerized execution
+-  Docker and Docker Compose for containerized execution
 
 ### Run with Docker Compose
 From the root directory:
